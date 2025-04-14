@@ -20,40 +20,42 @@ All services are containerized using Docker and interact with each other as inde
 
 ---
 
-## Project Structure
+## 📁 Project Structure
+
+```
 .
 ├── db-init
-│   ├── feedback.sql
-│   └── parking.sql
-├── docker-compose.yml
+│   ├── feedback.sql                  # SQL script for feedback table initialization
+│   └── parking.sql                   # SQL script for parking table initialization
+├── docker-compose.yml                # Docker Compose setup for all services
 ├── feedback_display
-│   ├── Dockerfile
-│   ├── app.py
-│   ├── display.py
-│   └── requirements.txt
+│   ├── Dockerfile
+│   ├── app.py                        # Flask app to display feedback
+│   ├── display.py                    # Logic for displaying feedback
+│   └── requirements.txt              # Python dependencies
 ├── feedback_submission
-│   ├── Dockerfile
-│   ├── app.py
-│   ├── requirements.txt
-│   └── submissions.py
+│   ├── Dockerfile
+│   ├── app.py                        # Flask app to submit feedback
+│   ├── requirements.txt
+│   └── submissions.py                # Logic to handle feedback submissions
 ├── parking_service
-│   ├── Dockerfile
-│   ├── app.py
-│   ├── parking_functions.py
-│   └── requirements.txt
+│   ├── Dockerfile
+│   ├── app.py                        # Parking slot management APIs
+│   ├── parking_functions.py          # Slot assignment, availability, and history
+│   └── requirements.txt
 ├── subscription_service
-│   ├── Dockerfile
-│   ├── app.py
-│   ├── requirements.txt
-│   └── subscriptions_functions.py
-├── tree.txt
+│   ├── Dockerfile
+│   ├── app.py                        # Subscription and payment APIs
+│   ├── requirements.txt
+│   └── subscriptions_functions.py    # Core logic for subscriptions and payments
+├── tree.txt                          # Project tree view (text version)
 └── vehicle_details_service
     ├── Dockerfile
-    ├── app.py
+    ├── app.py                        # Vehicle details management APIs
     ├── requirements.txt
-    └── vehicle_functions.py
+    └── vehicle_functions.py          # Logic to register, update, and check vehicles
+```
 
-7 directories, 24 files
 
 ---
 
