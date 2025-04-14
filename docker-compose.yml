@@ -1,0 +1,78 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ijwtbpoys
+      MYSQL_DATABASE: university_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db-init:/docker-entrypoint-initdb.d
+    networks:
+      - app_network
+
+  vehicle_service:
+    build:
+      context: ./vehicle_details_service
+    container_name: vehicle_service
+    ports:
+      - "5001:5000"
+    depends_on:
+      - db
+    networks:
+      - app_network
+
+  parking_service:
+    build:
+      context: ./parking_service
+    container_name: parking_service
+    ports:
+      - "5002:5000"
+    depends_on:
+      - db
+      - vehicle_service
+    networks:
+      - app_network
+
+  subscription_service:
+    build:
+      context: ./subscription_service
+    container_name: subscription_service
+    ports:
+      - "5003:5000"
+    depends_on:
+      - db
+      - vehicle_service
+    networks:
+      - app_network
+
+  feedback_submission:
+    build:
+      context: ./feedback_submission
+    container_name: feedback_submission
+    ports:
+      - "5004:5000"
+    depends_on:
+      - db
+    networks:
+      - app_network
+
+  feedback_display:
+    build:
+      context: ./feedback_display
+    container_name: feedback_display
+    ports:
+      - "5005:5000"
+    depends_on:
+      - db
+    networks:
+      - app_network
+
+volumes:
+  db_data:
+
+networks:
+  app_network:
+    driver: bridge
