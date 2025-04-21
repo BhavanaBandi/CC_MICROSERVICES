@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            color: #333;
+        }
+        .attendance-form {
+            margin-top: 20px;
+        }
+        .attendance-form table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .attendance-form th, .attendance-form td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        .attendance-form th {
+            background-color: #f2f2f2;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        // JavaScript function to show the attendance form
+        function showAttendanceForm(date) {
+            // Set the selected date in the hidden input field
+            document.getElementById('selected-date').value = date;
+
+            // Show the attendance form
+            const form = document.getElementById('attendance-form');
+            if (form) {
+                form.style.display = 'block';
+            } else {
+                console.error("Attendance form not found!");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Attendance Tracker</h2>
+    <p>Welcome, {{ teacher.teacher_name }}</p>
+    <p>Subject: {{ subject.subject_name }} (Year {{ subject.subject_year }})</p>
+    <a href="/teacher/dashboard">Back to Dashboard</a>
+
+    <div class="attendance-form">
+        <h3>Select Class Date</h3>
+        {% for date in class_dates %}
+            <!-- Button to grant attendance for each date -->
+            <button onclick="showAttendanceForm('{{ date.strftime('%Y-%m-%d') }}')">
+                Grant Attendance for {{ date.strftime('%Y-%m-%d') }}
+            </button>
+        {% endfor %}
+
+        <!-- Attendance form (initially hidden) -->
+        <form id="attendance-form" method="POST" style="display: none;">
+            <!-- Hidden input to store the selected date -->
+            <input type="hidden" id="selected-date" name="date" value="">
+
+            <!-- Table to mark attendance for students -->
+            <table>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Status</th>
+                </tr>
+                {% for student in students %}
+                    <tr>
+                        <td>{{ student.student_name }}</td>
+                        <td>
+                            <select name="student_{{ student.student_id }}">
+                                <option value="Present">Present</option>
+                                <option value="Absent">Absent</option>
+                            </select>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <button type="submit">Submit Attendance</button>
+        </form>
+    </div>
+</body>
+</html>
